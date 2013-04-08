@@ -1,0 +1,30 @@
+<configuration>
+
+	<contextName>ExampleApp</contextName>
+
+	<!-- Our custom appender that will publish log data to an AMQP message exchange -->
+	<appender name="amqp" class="gov.noaa.nws.iris.commons.log.AmqpAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date %level [%thread] %logger [%file:%line] %msg%n</pattern>
+		</layout>
+		<host>localhost</host>
+		<port>5672</port>
+		<virtualHost>/</virtualHost>
+		<username>guest</username>
+		<password>guest</password>
+		<exchangeName>logExchange</exchangeName>
+	</appender>
+
+	<appender name="stdout" class="ch.qos.logback.core.ConsoleAppender">
+		<layout class="ch.qos.logback.classic.PatternLayout">
+			<pattern>%date %level [%thread] %logger [%file:%line] %msg%n</pattern>
+		</layout>
+	</appender>
+
+	<root>
+		<level value="info" />
+		<appender-ref ref="stdout" />
+		<appender-ref ref="amqp" />
+	</root>
+
+</configuration>
